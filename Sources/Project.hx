@@ -52,7 +52,7 @@ class Project {
 	function update(): Void {
 		
 		if (keysPressed._8) {
-			playerVel.y -= playerSpeed.y;
+			playerVel.y += playerSpeed.y;
 		}
 		if (keysPressed._7) {
 			playerVel.x -= playerSpeed.x;
@@ -61,7 +61,7 @@ class Project {
 			playerVel.x += playerSpeed.x;
 		}
 		if (keysPressed._2) {
-			playerVel.y += playerSpeed.y;
+			playerVel.y -= playerSpeed.y;
 		}
 		if (keysPressed._1) {
 			playerVel.x -= playerSpeed.x;
