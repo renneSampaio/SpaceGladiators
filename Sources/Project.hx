@@ -14,6 +14,7 @@ class Project {
 	var playerSize = {width: 20, height: 40};
 	var keysPressed = {_7: false, _8: false, _9: false, _1: false, _2: false, _3: false}
 	var playerVel = {x: 0., y: 0.};
+	var playerSpeed = {x: 5./60, y: 5./60};
 
 	public function new() {
 		System.notifyOnRender(render);
@@ -49,10 +50,24 @@ class Project {
 
 	function update(): Void {
 		
-		if (keysPressed._7) playerVel.x += 5/60;
-		if (keysPressed._9) playerVel.x -= 5/60;
-		if (keysPressed._1) playerVel.y += 5/60;
-		if (keysPressed._3) playerVel.y -= 5/60;
+		if (keysPressed._8) {
+			playerVel.y -= playerSpeed.y;
+		}
+		if (keysPressed._7) {
+			playerVel.x -= playerSpeed.x;
+		}
+		if (keysPressed._9) {
+			playerVel.x += playerSpeed.x;
+		}
+		if (keysPressed._2) {
+			playerVel.y += playerSpeed.y;
+		}
+		if (keysPressed._1) {
+			playerVel.x -= playerSpeed.x;
+		}
+		if (keysPressed._3) {
+			playerVel.x += playerSpeed.x;
+		}
 
 		Keyboard.get().show();
 
