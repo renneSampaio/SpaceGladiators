@@ -1,6 +1,7 @@
 package;
 
 import kha.Framebuffer;
+import kha.Assets;
 import kha.Scheduler;
 import kha.System;
 import kha.input.Keyboard;
@@ -79,6 +80,10 @@ class Project {
 		var g2 = framebuffer.g2;
 
 		g2.begin();
+
+			g2.font = Assets.fonts.Kenney_Blocks;
+			g2.fontSize = 20;
+			g2.drawString("Teste", 20, 20);
 			g2.drawRect(playerPos.x - playerSize.width/2, playerPos.y - playerSize.height/2, playerSize.width, playerSize.height, 2);
 			g2.drawCircle(playerPos.x, playerPos.y, 10, 2);
 		g2.end();
