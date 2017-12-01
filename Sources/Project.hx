@@ -6,6 +6,8 @@ import kha.Scheduler;
 import kha.System;
 import kha.input.Keyboard;
 import kha.input.KeyCode;
+import kha.math.FastMatrix3;
+import kha.math.FastVector2;
 
 using kha.graphics2.GraphicsExtension;
 
@@ -16,6 +18,9 @@ class Project {
 	var keysPressed = {_7: false, _8: false, _9: false, _1: false, _2: false, _3: false}
 	var playerVel = {x: 0., y: 0.};
 	var playerSpeed = {x: 5./60, y: 5./60};
+	var playerAngle = 0.;
+	var playerTranslation: FastMatrix3;
+	var playerRotation: FastMatrix3;
 
 	public function new() {
 		System.notifyOnRender(render);
@@ -52,16 +57,25 @@ class Project {
 	function update(): Void {
 		
 		if (keysPressed._8) {
-			playerVel.y += playerSpeed.y;
+			
+			var deltaVel = FastMatrix3.rotation(playerAngle).multvec(new FastVector2(0, playerSpeed.y));
+
+			playerVel.x += deltaVel.x;
+			playerVel.y += deltaVel.y;
 		}
 		if (keysPressed._7) {
-			playerVel.x -= playerSpeed.x;
+			//playerVel.x -= playerSpeed.x;
+			playerAngle -= 5/System.refreshRate;
 		}
 		if (keysPressed._9) {
-			playerVel.x += playerSpeed.x;
+			//playerVel.x += playerSpeed.x;
+			playerAngle += 5/System.refreshRate;
 		}
 		if (keysPressed._2) {
-			playerVel.y -= playerSpeed.y;
+			var deltaVel = FastMatrix3.rotation(playerAngle).multvec(new FastVector2(0, -playerSpeed.y));
+
+			playerVel.x += deltaVel.x;
+			playerVel.y += deltaVel.y;
 		}
 		if (keysPressed._1) {
 			playerVel.x -= playerSpeed.x;
@@ -84,8 +98,17 @@ class Project {
 			g2.font = Assets.fonts.Kenney_Blocks;
 			g2.fontSize = 20;
 			g2.drawString("Teste", 20, 20);
-			g2.drawRect(playerPos.x - playerSize.width/2, playerPos.y - playerSize.height/2, playerSize.width, playerSize.height, 2);
-			g2.drawCircle(playerPos.x, playerPos.y, 10, 2);
+
+
+			playerTranslation = FastMatrix3.translation(playerPos.x, playerPos.y);
+			playerRotation = FastMatrix3.rotation(playerAngle);
+
+			var transformation = playerTranslation.multmat(playerRotation);
+
+			g2.pushTransformation(transformation);
+				g2.drawRect( -playerSize.width/2, -playerSize.height/2, playerSize.width, playerSize.height, 2);
+				g2.drawCircle(0, -playerSize.height/2, 10, 2);
+			g2.popTransformation();
 		g2.end();
 	}
 }
