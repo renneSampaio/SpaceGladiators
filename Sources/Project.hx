@@ -22,11 +22,18 @@ class Project {
 	var playerTranslation: FastMatrix3;
 	var playerRotation: FastMatrix3;
 
+	var bulletPos : Array<FastVector2>;
+	var bulletVel : Array<FastVector2>;
+	var bulletIndex = 0;
+
 	public function new() {
 		System.notifyOnRender(render);
 		Scheduler.addTimeTask(update, 0, 1 / 60);
 		
 		if (Keyboard.get() != null) Keyboard.get().notify(OnKeyDown, OnKeyUp);
+
+		bulletPos = new Array<FastVector2>();
+		bulletVel = new Array<FastVector2>();
 	}
 
 	function OnKeyDown(key: KeyCode) {
@@ -49,9 +56,22 @@ class Project {
 			case KeyCode.Numpad1: keysPressed._1 = false;
 			case KeyCode.Numpad2: keysPressed._2 = false;
 			case KeyCode.Numpad3: keysPressed._3 = false;
+			case KeyCode.Numpad5: FireBullet();
 			default: 
 		}
 		
+	}
+
+	function FireBullet() 
+	{
+		bulletPos[bulletIndex] = new FastVector2(playerPos.x, playerPos.y);
+		bulletVel[bulletIndex] = FastMatrix3.rotation(playerAngle).multvec(new FastVector2(0, playerSpeed.y * 100));
+
+		playerVel.x -= bulletVel[bulletIndex].x/80;
+		playerVel.y -= bulletVel[bulletIndex].y/80;
+		
+		bulletIndex++;
+		if (bulletIndex == 30) bulletIndex = 0;
 	}
 
 	function update(): Void {
@@ -88,6 +108,10 @@ class Project {
 
 		playerPos.x += playerVel.x;
 		playerPos.y += playerVel.y;
+
+		for (i in 0...bulletPos.length) {
+			bulletPos[i] = bulletPos[i].add(bulletVel[i]);
+		}
 	}
 
 	function render(framebuffer: Framebuffer): Void {
@@ -107,8 +131,16 @@ class Project {
 
 			g2.pushTransformation(transformation);
 				g2.drawRect( -playerSize.width/2, -playerSize.height/2, playerSize.width, playerSize.height, 2);
-				g2.drawCircle(0, -playerSize.height/2, 10, 2);
+				g2.drawCircle(0, -playerSize.height/2, 10, 2);				
 			g2.popTransformation();
+
+
+			for (b in bulletPos) {
+				transformation = FastMatrix3.translation(b.x, b.y);
+				g2.pushTransformation(transformation);
+					g2.drawCircle(0, 0, 3, 1);
+				g2.popTransformation();
+			}
 		g2.end();
 	}
 }
