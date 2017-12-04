@@ -18,8 +18,20 @@ class SGTransform{
 		size = new FastVector2(0,0);
 		vel = new FastVector2(0,0);
 		angle = 0;
-		rotation = FastMatrix3.identity();
-		translation = FastMatrix3.identity();
+		rotation = FastMatrix3.rotation(angle);
+		translation = FastMatrix3.translation(position.x, position.y);
+	}
+
+	public function SetRotation(a: Float) {
+		angle = a;
+	}
+	
+	public function Rotate(a: Float) {
+		angle += a;
+	}
+
+	public function Translate(ammount: FastVector2) {
+		position.add(ammount);
 	}
 
 	public function Apply(g: Graphics): Void {
