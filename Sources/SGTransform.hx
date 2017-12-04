@@ -30,7 +30,7 @@ class SGTransform{
 		size = s;
 	}
 
-	public function SetRotation(a: Float) {
+	public function SetAngle(a: Float) {
 		angle = a;
 	}
 	
