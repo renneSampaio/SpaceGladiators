@@ -26,6 +26,10 @@ class SGTransform{
 		position = pos;
 	}
 
+	public function GetPosition(): FastVector2 {
+		return position;
+	}
+
 	public function SetSize(s: FastVector2) {
 		size = s;
 	}
@@ -33,9 +37,13 @@ class SGTransform{
 	public function SetAngle(a: Float) {
 		angle = a;
 	}
-	
+
 	public function Rotate(a: Float) {
 		angle += a;
+	}
+
+	public function GetRotation(): FastMatrix3 {
+		return FastMatrix3.rotation(angle);
 	}
 
 	public function Translate(ammount: FastVector2) {
