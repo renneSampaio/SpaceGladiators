@@ -1,5 +1,6 @@
 package;
 
+import kha.graphics2.Graphics;
 import kha.math.FastMatrix3;
 import kha.math.FastVector2;
 import kha.FastFloat;
@@ -19,6 +20,15 @@ class SGTransform{
 		angle = 0;
 		rotation = FastMatrix3.identity();
 		translation = FastMatrix3.identity();
+	}
+
+	public function Apply(g: Graphics): Void {
+		rotation = FastMatrix3.rotation(angle);
+		translation = FastMatrix3.translation(position.x, position.y);
+
+		var transformation = translation.multmat(rotation);
+
+		g.pushTransformation(transformation);
 	}
 
 }
