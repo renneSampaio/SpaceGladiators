@@ -13,7 +13,7 @@ class SGTransform{
 	private var rotation:FastMatrix3;
 	private var translation:FastMatrix3;
 
-	function new(){
+	public function new(){
 		position = new FastVector2(0,0);
 		size = new FastVector2(0,0);
 		vel = new FastVector2(0,0);
