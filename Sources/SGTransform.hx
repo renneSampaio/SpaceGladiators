@@ -47,16 +47,17 @@ class SGTransform{
 	}
 
 	public function Translate(ammount: FastVector2) {
-		position.add(ammount);
+		position = position.add(ammount);
 	}
 
-	public function Apply(g: Graphics): Void {
+	public function Apply(): FastMatrix3 {
 		rotation = FastMatrix3.rotation(angle);
 		translation = FastMatrix3.translation(position.x, position.y);
 
 		var transformation = translation.multmat(rotation);
 
-		g.pushTransformation(transformation);
+		//g.pushTransformation(transformation);
+		return transformation;
 	}
 
 }
