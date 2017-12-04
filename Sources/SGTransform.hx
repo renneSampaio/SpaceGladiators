@@ -22,6 +22,14 @@ class SGTransform{
 		translation = FastMatrix3.translation(position.x, position.y);
 	}
 
+	public function SetPosition(pos: FastVector2) {
+		position = pos;
+	}
+
+	public function SetSize(s: FastVector2) {
+		size = s;
+	}
+
 	public function SetRotation(a: Float) {
 		angle = a;
 	}
