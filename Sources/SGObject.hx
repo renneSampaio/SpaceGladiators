@@ -1,7 +1,7 @@
 package;
 
-interface SGObject {
+class SGObject {
 	var transform:SGTransform;
-	function update():Void;
-	function render():Void;
+	function update():Void {}
+	function render():Void {}
 }
