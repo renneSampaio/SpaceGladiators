@@ -1,5 +1,6 @@
 package;
 
+import kha.graphics2.Graphics;
 using kha.math.FastVector2;
 
 class SGObject {
@@ -11,5 +12,5 @@ class SGObject {
 	}
 
 	function update():Void {}
-	function render():Void {}
+	function render(g: Graphics):Void {}
 }
