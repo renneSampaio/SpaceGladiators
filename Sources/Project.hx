@@ -26,6 +26,10 @@ class Project {
 	var bulletVel : Array<FastVector2>;
 	var bulletIndex = 0;
 
+
+	var ship: SGShip;
+	var ship2: SGShip;
+
 	public function new() {
 		System.notifyOnRender(render);
 		Scheduler.addTimeTask(update, 0, 1 / 60);
@@ -34,6 +38,9 @@ class Project {
 
 		bulletPos = new Array<FastVector2>();
 		bulletVel = new Array<FastVector2>();
+
+		ship = new SGShip(System.windowWidth(0)/2, System.windowHeight(0)/2, 5./60);
+		ship2 = new SGShip(System.windowWidth(0)/2.5, System.windowHeight(0)/1.5, 10./60);
 	}
 
 	public function Restart() {
@@ -112,8 +119,11 @@ class Project {
 
 		Keyboard.get().show();
 
-		playerPos.x += playerVel.x;
-		playerPos.y += playerVel.y;
+		// playerPos.x += playerVel.x;
+		// playerPos.y += playerVel.y;
+
+		ship.update();
+		ship2.update();
 
 		for (i in 0...bulletPos.length) {
 			bulletPos[i] = bulletPos[i].add(bulletVel[i]);
@@ -124,46 +134,47 @@ class Project {
 		var g2 = framebuffer.g2;
 
 		g2.begin();
-
-			g2.font = Assets.fonts.Kenney_Blocks;
-			g2.fontSize = 20;
-			g2.drawString("player.x: " + playerPos.x, 20, 20);
-			g2.drawString("player.y: " + playerPos.y, 20, 35);
-
-
-			playerTranslation = FastMatrix3.translation(playerPos.x, playerPos.y);
-			playerRotation = FastMatrix3.rotation(playerAngle);
-
-			var transformation = playerTranslation.multmat(playerRotation);
-
-			g2.pushTransformation(transformation);
-				if (keysPressed._8) {			
-					g2.drawRect(-2.5, -playerSize.height+5, 5, 5, 4);
-				}
-				if (keysPressed._7) {
-					g2.drawRect(-playerSize.width, -playerSize.height/2, 5, 5, 4);
-					g2.drawRect(playerSize.width-5, playerSize.height/2, 5, 5, 4);
-				}
-				if (keysPressed._9) {
-					g2.drawRect(playerSize.width-5, -playerSize.height/2, 5, 5, 4);
-					g2.drawRect(-playerSize.width, playerSize.height/2, 5, 5, 4);
-				}
-				if (keysPressed._2) {
-					g2.drawRect(-2.5, playerSize.height/2 +5*2, 5, 5, 4);
-				}
-
-				g2.drawRect( -playerSize.width/2, -playerSize.height/2, playerSize.width, playerSize.height, 2);
-				g2.drawRect( -2.5, -playerSize.height/2, 5, 10);
-				g2.drawCircle(0, playerSize.height/2, 10, 2);				
-			g2.popTransformation();
+			ship.render(g2);
+			ship2.render(g2);
+			// g2.font = Assets.fonts.Kenney_Blocks;
+			// g2.fontSize = 20;
+			// g2.drawString("player.x: " + playerPos.x, 20, 20);
+			// g2.drawString("player.y: " + playerPos.y, 20, 35);
 
 
-			for (b in bulletPos) {
-				transformation = FastMatrix3.translation(b.x, b.y);
-				g2.pushTransformation(transformation);
-					g2.drawCircle(0, 0, 3, 1);
-				g2.popTransformation();
-			}
+			// playerTranslation = FastMatrix3.translation(playerPos.x, playerPos.y);
+			// playerRotation = FastMatrix3.rotation(playerAngle);
+
+			// var transformation = playerTranslation.multmat(playerRotation);
+
+			// g2.pushTransformation(transformation);
+			// 	if (keysPressed._8) {			
+			// 		g2.drawRect(-2.5, -playerSize.height+5, 5, 5, 4);
+			// 	}
+			// 	if (keysPressed._7) {
+			// 		g2.drawRect(-playerSize.width, -playerSize.height/2, 5, 5, 4);
+			// 		g2.drawRect(playerSize.width-5, playerSize.height/2, 5, 5, 4);
+			// 	}
+			// 	if (keysPressed._9) {
+			// 		g2.drawRect(playerSize.width-5, -playerSize.height/2, 5, 5, 4);
+			// 		g2.drawRect(-playerSize.width, playerSize.height/2, 5, 5, 4);
+			// 	}
+			// 	if (keysPressed._2) {
+			// 		g2.drawRect(-2.5, playerSize.height/2 +5*2, 5, 5, 4);
+			// 	}
+
+			// 	g2.drawRect( -playerSize.width/2, -playerSize.height/2, playerSize.width, playerSize.height, 2);
+			// 	g2.drawRect( -2.5, -playerSize.height/2, 5, 10);
+			// 	g2.drawCircle(0, playerSize.height/2, 10, 2);				
+			// g2.popTransformation();
+
+
+			// for (b in bulletPos) {
+			// 	transformation = FastMatrix3.translation(b.x, b.y);
+			// 	g2.pushTransformation(transformation);
+			// 		g2.drawCircle(0, 0, 3, 1);
+			// 	g2.popTransformation();
+			// }
 		g2.end();
 	}
 }
