@@ -61,7 +61,7 @@ class SGShip extends SGObject {
 	}
 
 	public override function render(g: Graphics) {
-		g.pushTransformation(transform.Apply());
+		g.pushTransformation(transform.GetTransformation());
 			g.drawRect( -size.x/2, -size.y/2, size.x, size.y, 2);
 			g.drawRect( -2.5, -size.y/2, 5, 10, 5);
 			g.drawCircle(0, size.y/2, 10, 2);

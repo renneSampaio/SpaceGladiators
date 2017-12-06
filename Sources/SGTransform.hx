@@ -1,22 +1,17 @@
 package;
 
-import kha.graphics2.Graphics;
 import kha.math.FastMatrix3;
 import kha.math.FastVector2;
 import kha.FastFloat;
 
 class SGTransform{
 	private var position:FastVector2;
-	private var size:FastVector2;
-	private var vel:FastVector2;
 	private var angle:FastFloat;
 	private var rotation:FastMatrix3;
 	private var translation:FastMatrix3;
 
 	public function new(){
 		position = new FastVector2(0,0);
-		size = new FastVector2(0,0);
-		vel = new FastVector2(0,0);
 		angle = 0;
 		rotation = FastMatrix3.rotation(angle);
 		translation = FastMatrix3.translation(position.x, position.y);
@@ -28,10 +23,6 @@ class SGTransform{
 
 	public function GetPosition(): FastVector2 {
 		return position;
-	}
-
-	public function SetSize(s: FastVector2) {
-		size = s;
 	}
 
 	public function SetAngle(a: Float) {
@@ -46,11 +37,15 @@ class SGTransform{
 		return FastMatrix3.rotation(angle);
 	}
 
+	public function GetTranslation(): FastMatrix3 {
+		return FastMatrix3.translation(position.x, position.y);
+	}
+
 	public function Translate(ammount: FastVector2) {
 		position = position.add(ammount);
 	}
 
-	public function Apply(): FastMatrix3 {
+	public function GetTransformation(): FastMatrix3 {
 		rotation = FastMatrix3.rotation(angle);
 		translation = FastMatrix3.translation(position.x, position.y);
 
