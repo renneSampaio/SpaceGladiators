@@ -24,27 +24,10 @@ class SGShip extends SGObject {
 		this.size = new FastVector2(20, 30);
 		this.speed = speed;
 
-		Keyboard.get().notify(ActivateEngine, DeactivateEngine);
-	}
-
-	public function ActivateEngine(key: KeyCode ) {
-		switch(key) {
-			case KeyCode.Numpad7: right    = true;
-			case KeyCode.Numpad9: left     = true;
-			case KeyCode.Numpad8: backward = true;
-			case KeyCode.Numpad2: forward  = true;
-			default:
-		}
-	}
-
-	public function DeactivateEngine(key: KeyCode) {
-		switch(key) {
-			case KeyCode.Numpad7: right    = false;
-			case KeyCode.Numpad9: left     = false;
-			case KeyCode.Numpad8: backward = false;
-			case KeyCode.Numpad2: forward  = false;
-			default:
-		}
+		SGInputManager.Get().AddUpDownObserver(KeyCode.Numpad7, function () {this.right = true;}, function () {this.right = false;});
+		SGInputManager.Get().AddUpDownObserver(KeyCode.Numpad9, function () {this.left = true;}, function () {this.left = false;});
+		SGInputManager.Get().AddUpDownObserver(KeyCode.Numpad2, function () {this.forward = true;}, function () {this.forward = false;});
+		SGInputManager.Get().AddUpDownObserver(KeyCode.Numpad8, function () {this.backward = true;}, function () {this.backward = false;});
 	}
 
 	public override function update() {
