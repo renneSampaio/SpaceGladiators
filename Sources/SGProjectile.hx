@@ -14,10 +14,10 @@ class SGProjectile extends SGObject {
 
 		this.shooter = shooter;
 		this.vel = vel;
-		this.size = new FastVector2(10,10);
+		this.size = new FastVector2(10,20);
 
 		transform.SetPosition(shooter.transform.GetPosition());
-		transform.SetAngle(transform.GetAngle());
+		transform.SetAngle(shooter.transform.GetAngle());
 	}
 
 	public override function update() {
@@ -27,7 +27,7 @@ class SGProjectile extends SGObject {
 	public override function render(g: Graphics) {
 			g.pushTransformation(transform.GetTransformation());
 
-				g.drawRect(0, 0, size.x, size.y);
+				g.drawRect(size.x * -0.5, -shooter.size.y, size.x, size.y);
 
 			g.popTransformation();
 	}
