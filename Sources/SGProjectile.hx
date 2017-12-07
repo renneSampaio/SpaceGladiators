@@ -14,7 +14,7 @@ class SGProjectile extends SGObject {
 
 		this.shooter = shooter;
 		this.vel = vel;
-		this.size = new FastVector2(10,20);
+		this.size = new FastVector2(5,5);
 
 		transform.SetPosition(shooter.transform.GetPosition());
 		transform.SetAngle(shooter.transform.GetAngle());

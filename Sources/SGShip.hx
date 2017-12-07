@@ -9,7 +9,7 @@ import kha.input.KeyCode;
 
 using kha.math.FastVector2;
 
-class SGShip extends SGObject {
+class SGShip extends SGObject{
 	var vel: FastVector2;
 	var speed: FastFloat;
 	var forward: Bool;

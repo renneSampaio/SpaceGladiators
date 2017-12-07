@@ -23,15 +23,10 @@ class Project {
 		ship = new SGShip(System.windowWidth(0)/2, System.windowHeight(0)/2, 5./60, 1);
 		ship2 = new SGShip(System.windowWidth(0)/2.5, System.windowHeight(0)/1.5, 5./60, 2);
 
-		SGInputManager.Get().AddDownObserver(KeyCode.R, IEI);
 	}
 
 	public function Restart() {
 
-	}
-
-	public function IEI() {
-		trace("IEEEEEEEEEEEEEEEI");
 	}
 
 	function update(): Void {
