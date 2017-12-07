@@ -37,6 +37,10 @@ class Project {
 	function update(): Void {
 		ship.update();
 		ship2.update();
+
+		for (bullet in ship.bullets) {
+			bullet.update();
+		}
 	}
 
 	function render(framebuffer: Framebuffer): Void {
@@ -44,6 +48,9 @@ class Project {
 
 		g2.begin();
 			ship.render(g2);
+			for (bullet in ship.bullets) {
+				bullet.render(g2);
+			}
 			ship2.render(g2);
 		g2.end();
 	}

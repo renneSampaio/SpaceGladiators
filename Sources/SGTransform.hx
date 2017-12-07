@@ -22,7 +22,7 @@ class SGTransform{
 	}
 
 	public function GetPosition(): FastVector2 {
-		return position;
+		return new FastVector2(position.x, position.y);
 	}
 
 	public function SetAngle(a: Float) {
@@ -46,8 +46,8 @@ class SGTransform{
 	}
 
 	public function GetTransformation(): FastMatrix3 {
-		rotation = FastMatrix3.rotation(angle);
-		translation = FastMatrix3.translation(position.x, position.y);
+		rotation = GetRotation();
+		translation = GetTranslation();
 
 		var transformation = translation.multmat(rotation);
 
