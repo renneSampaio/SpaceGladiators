@@ -20,8 +20,8 @@ class Project {
 		System.notifyOnRender(render);
 		Scheduler.addTimeTask(update, 0, 1 / 60);
 
-		ship = new SGShip(System.windowWidth(0)/2, System.windowHeight(0)/2, 5./60);
-		ship2 = new SGShip(System.windowWidth(0)/2.5, System.windowHeight(0)/1.5, 10./60);
+		ship = new SGShip(System.windowWidth(0)/2, System.windowHeight(0)/2, 5./60, 1);
+		ship2 = new SGShip(System.windowWidth(0)/2.5, System.windowHeight(0)/1.5, 5./60, 2);
 
 		SGInputManager.Get().AddDownObserver(KeyCode.R, IEI);
 	}
@@ -41,6 +41,9 @@ class Project {
 		for (bullet in ship.bullets) {
 			bullet.update();
 		}
+		for (bullet in ship2.bullets) {
+			bullet.update();
+		}
 	}
 
 	function render(framebuffer: Framebuffer): Void {
@@ -52,6 +55,9 @@ class Project {
 				bullet.render(g2);
 			}
 			ship2.render(g2);
+			for (bullet in ship2.bullets) {
+				bullet.render(g2);
+			}
 		g2.end();
 	}
 }
