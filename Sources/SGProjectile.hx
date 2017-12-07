@@ -14,9 +14,10 @@ class SGProjectile extends SGObject {
 
 		this.shooter = shooter;
 		this.vel = vel;
+		this.size = new FastVector2(10,10);
 
 		transform.SetPosition(shooter.transform.GetPosition());
-		transform.SetAngle(transform.get)
+		transform.SetAngle(transform.GetAngle());
 	}
 
 	public override function update() {
@@ -26,8 +27,12 @@ class SGProjectile extends SGObject {
 	public override function render(g: Graphics) {
 			g.pushTransformation(transform.GetTransformation());
 
-				g.drawRect(0, 0, 10, 10);
+				g.drawRect(0, 0, size.x, size.y);
 
 			g.popTransformation();
 	}
+
+	//public function ColisaoBala():Bool{
+	//	if()
+	//}
 }
