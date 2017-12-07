@@ -29,6 +29,10 @@ class SGTransform{
 		angle = a;
 	}
 
+	public function GetAngle(): FastFloat{
+		return this.angle;
+	}
+
 	public function Rotate(a: Float) {
 		angle += a;
 	}
