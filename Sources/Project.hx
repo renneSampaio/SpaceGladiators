@@ -59,12 +59,11 @@ class Project {
 
 	function DrawPlayerInfo(g2: Graphics) {
 		g2.color = ship.GetColor();
-		g2.font = Assets.fonts.Kenney_Blocks;
+		g2.font = Assets.fonts.Kenney_Mini_Square;
 		g2.fontSize = 25;
-		g2.drawString("Player    I:   " + ship.GetHP(), 20, 20);
+		g2.drawString("Player  I:   " + ship.GetHP(), 20, 20);
 
 		g2.color = ship2.GetColor();
-		g2.font = Assets.fonts.Kenney_Blocks;
 		g2.fontSize = 25;
 		g2.drawString("Player II:   " + ship2.GetHP(), 20, 50);
 	}
