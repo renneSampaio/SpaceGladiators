@@ -17,6 +17,8 @@ class SGShip extends SGObject{
 	var left: Bool;
 	var right: Bool;
 
+	private var hp: Int;
+	private var enemy: SGShip;
 	public var bullets: Array<SGProjectile>;
 
 	public function new(x: FastFloat, y: FastFloat, speed: FastFloat, playerNumber: Int) {
@@ -25,7 +27,7 @@ class SGShip extends SGObject{
 		this.vel = new FastVector2(0, 0);
 		this.size = new FastVector2(20, 30);
 		this.speed = speed;
-
+		this.hp = 5;
 		bullets = new Array<SGProjectile>();
 
 		var playerKeys = {left: KeyCode.F13, right: KeyCode.F13, forward: KeyCode.F13, backward: KeyCode.F13, fire: KeyCode.F13};
@@ -40,20 +42,27 @@ class SGShip extends SGObject{
 			playerKeys.fire    = KeyCode.S;
 		}
 
-		SGInputManager.Get().AddUpDownObserver(playerKeys.right, function () { this.right    = true;}, function () { this.right    = false;});
-		SGInputManager.Get().AddUpDownObserver(playerKeys.left, function () { this.left     = true;}, function () { this.left     = false;});
-		SGInputManager.Get().AddUpDownObserver(playerKeys.forward, function () { this.forward  = true;}, function () { this.forward  = false;});
+		SGInputManager.Get().AddUpDownObserver(playerKeys.right   , function () { this.right    = true;}, function () { this.right    = false;});
+		SGInputManager.Get().AddUpDownObserver(playerKeys.left    , function () { this.left     = true;}, function () { this.left     = false;});
+		SGInputManager.Get().AddUpDownObserver(playerKeys.forward , function () { this.forward  = true;}, function () { this.forward  = false;});
 		SGInputManager.Get().AddUpDownObserver(playerKeys.backward, function () { this.backward = true;}, function () { this.backward = false;});
 
 		SGInputManager.Get().AddUpObserver(playerKeys.fire, FireBullet);
 	}
 
 	public function FireBullet() {
-		trace("Atirei!");
-		bullets.push(new SGProjectile(this, transform.GetRotation().multvec(new FastVector2(0, -speed*50))));
+		if (active) {
+			trace("Atirei!");
+			bullets.push(new SGProjectile(this, enemy, transform.GetRotation().multvec(new FastVector2(0, -speed*50))));
+		}
+	}
+
+	public function SetEnemy(enemy: SGShip) {
+		this.enemy = enemy;
 	}
 
 	public override function update() {
+		if (active) {
 			if (right)
 				transform.Rotate(5/System.refreshRate);
 			if (left)
@@ -62,16 +71,49 @@ class SGShip extends SGObject{
 				vel = vel.add(transform.GetRotation().multvec(new FastVector2(0, speed)));
 			if (forward)
 				vel = vel.add(transform.GetRotation().multvec(new FastVector2(0, -speed)));
-		
-		transform.Translate(vel);
 
+			transform.Translate(vel);
+			UpdateBullets();
+
+			var pos = transform.GetPosition();
+			if (pos.x > System.windowWidth(0)) {
+				pos.x = 0;
+			} else if (pos.x < 0) {
+				pos.x = System.windowWidth(0);
+			} else if (pos.y > System.windowHeight(0)) {
+				pos.y = 0;
+			} else if (pos.y < 0) {
+				pos.y = System.windowHeight(0);
+			}
+			transform.SetPosition(pos);
+		}
+	}
+
+	private function UpdateBullets() {
+		for (bullet in bullets) {
+			if (bullet.active) {
+				bullet.update();
+			}
+		}
+	}
+
+	public function OnHit() {
+		hp--;
+		trace("Atingido!");
+		if (hp <= 0) active = false;
 	}
 
 	public override function render(g: Graphics) {
-		g.pushTransformation(transform.GetTransformation());
-			g.drawRect( -size.x/2, -size.y/2, size.x, size.y, 2);
-			g.drawRect( -2.5, -size.y/2, 5, 10, 5);
-			g.drawCircle(0, size.y/2, 10, 2);
-		g.popTransformation();
+		if (active) {
+			g.pushTransformation(transform.GetTransformation());
+				g.drawRect( -size.x/2, -size.y/2, size.x, size.y, 2);
+				g.drawRect( -2.5, -size.y/2, 5, 10, 5);
+				g.drawCircle(0, size.y/2, 10, 2);
+			g.popTransformation();
+		}
+
+		for (bullet in bullets) {
+				bullet.render(g);
+		}
 	}
 }

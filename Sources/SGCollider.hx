@@ -1,5 +1,5 @@
 package;
 
 interface SGCollider {
-	public function CheckCollision(other: SGBoxCollider): Void;
+	public function CheckCollision(other: SGObject): Void;
 }

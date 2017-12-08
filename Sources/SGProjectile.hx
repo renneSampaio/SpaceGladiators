@@ -5,14 +5,16 @@ import kha.FastFloat;
 import kha.math.FastVector2;
 
 class SGProjectile extends SGObject {
-	private var shooter: SGObject;
+	private var shooter: SGShip;
 	private var vel: FastVector2;
 	private var speed: FastFloat;
+	private var enemy: SGShip;
 
-	public function new(shooter: SGObject, vel: FastVector2) {
+	public function new(shooter: SGShip, enemy: SGShip ,vel: FastVector2) {
 		super();
 
 		this.shooter = shooter;
+		this.enemy = enemy;
 		this.vel = vel;
 		this.size = new FastVector2(5,5);
 
@@ -22,6 +24,7 @@ class SGProjectile extends SGObject {
 
 	public override function update() {
 		transform.Translate(vel);
+		CheckCollision();
 	} 
 
 	public override function render(g: Graphics) {
@@ -32,7 +35,21 @@ class SGProjectile extends SGObject {
 			g.popTransformation();
 	}
 
-	//public function ColisaoBala():Bool{
-	//	if()
-	//}
+	public function CheckCollision()
+	{
+		var pos = transform.GetPosition();
+		var otherPos = enemy.transform.GetPosition();
+
+		var topLeft     = pos.add(new FastVector2(-enemy.size.x * 0.5, -enemy.size.y * 0.5)); 
+		var topRight    = pos.add(new FastVector2( enemy.size.x * 0.5, -enemy.size.y * 0.5));
+		var bottomLeft  = pos.add(new FastVector2(-enemy.size.x * 0.5,  enemy.size.y * 0.5));
+		var bottomRight = pos.add(new FastVector2( enemy.size.x * 0.5,  enemy.size.y * 0.5));
+
+		if (otherPos.x > topLeft.x && otherPos.y > topRight.y &&
+			otherPos.x < topRight.x && otherPos.y < bottomRight.y)
+		{
+			this.active = false;
+			enemy.OnHit();
+		}
+	}
 }
