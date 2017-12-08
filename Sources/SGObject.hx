@@ -7,12 +7,19 @@ class SGObject{
 	private static var _id = 0;
 	public var id(default, never) = _id++; 
 	public var transform:SGTransform;
-	public var size: FastVector2;
-	public var active: Bool;
+	private var size: FastVector2;
+	private var active: Bool;
 
 	public function new() {
 		transform = new SGTransform();
 		active = true;
+	}
+
+	public function SetActive(newactive:Bool){
+		this.active = newactive; 
+	}
+	public function GetActive():Bool{
+		return active;
 	}
 
 	function update():Void {}

@@ -56,10 +56,10 @@ class SGShip extends SGObject{
 	}
 
 	public function FireBullet() {
-		if (active) {
+		if (GetActive()) {
 			trace("Atirei!");
 			bullets.push(new SGProjectile(this, enemy, transform.GetRotation().multvec(new FastVector2(0, -speed*50))));
-			vel = vel.add(transform.GetRotation().multvec(new FastVector2(0, speed/4.)));
+			vel = vel.add(transform.GetRotation().multvec(new FastVector2(0, speed/4)));
 		}
 	}
 
@@ -81,12 +81,12 @@ class SGShip extends SGObject{
 		trace("Atingido!");
 		if (hp <= 0) {
 			hp = 0;
-			active = false;
+			SetActive(false);
 		}
 	}
 
 	public override function update() {
-		if (active) {
+		if (GetActive()) {
 			if (right)
 				transform.Rotate(5/System.refreshRate);
 			if (left)
@@ -95,9 +95,6 @@ class SGShip extends SGObject{
 				vel = vel.add(transform.GetRotation().multvec(new FastVector2(0, speed)));
 			if (forward)
 				vel = vel.add(transform.GetRotation().multvec(new FastVector2(0, -speed)));
-
-			transform.Translate(vel);
-			UpdateBullets();
 
 			var pos = transform.GetPosition();
 			if (pos.x > System.windowWidth(0)) {
@@ -110,19 +107,22 @@ class SGShip extends SGObject{
 				pos.y = System.windowHeight(0);
 			}
 			transform.SetPosition(pos);
+			
+			transform.Translate(vel);
+			UpdateBullets();
 		}
 	}
 
 	private function UpdateBullets() {
 		for (bullet in bullets) {
-			if (bullet.active) {
+			if (bullet.GetActive()) {
 				bullet.update();
 			}
 		}
 	}
 
 	public override function render(g: Graphics) {
-		if (active) {
+		if (GetActive()) {
 			g.color = color;
 
 			g.pushTransformation(transform.GetTransformation());

@@ -49,7 +49,7 @@ class Project {
 			ship.render(g2);
 			ship2.render(g2);
 
-			if (ship.active && ship2.active) {
+			if (ship.GetActive() && ship2.GetActive()) {
 				DrawPlayerInfo(g2);
 			} else {
 				DrawGameOverMessage(g2);
