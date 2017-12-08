@@ -42,7 +42,10 @@ class Project {
 
 	function render(framebuffer: Framebuffer): Void {
 		var g2 = framebuffer.g2;
-		g2.begin();
+		g2.begin(false);
+			g2.color = Color.fromBytes(0, 0, 0, 20);
+			g2.fillCircle(0,0, 10000);
+
 			ship.render(g2);
 			ship2.render(g2);
 
@@ -55,14 +58,15 @@ class Project {
 	}
 
 	function DrawPlayerInfo(g2: Graphics) {
-		g2.color = Color.Green;
+		g2.color = ship.GetColor();
 		g2.font = Assets.fonts.Kenney_Blocks;
 		g2.fontSize = 25;
-		g2.drawString("Player    I: " + ship.GetHP(), 20, 20);
+		g2.drawString("Player    I:   " + ship.GetHP(), 20, 20);
 
+		g2.color = ship2.GetColor();
 		g2.font = Assets.fonts.Kenney_Blocks;
 		g2.fontSize = 25;
-		g2.drawString("Player II: " + ship2.GetHP(), 20, 40);
+		g2.drawString("Player II:   " + ship2.GetHP(), 20, 50);
 	}
 
 	function DrawGameOverMessage(g2: Graphics) {

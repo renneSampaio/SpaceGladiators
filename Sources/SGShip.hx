@@ -39,7 +39,7 @@ class SGShip extends SGObject{
 			playerKeys.right   = KeyCode.Numpad9; playerKeys.left     = KeyCode.Numpad7;
 			playerKeys.forward = KeyCode.Numpad8; playerKeys.backward = KeyCode.Numpad2;
 			playerKeys.fire    = KeyCode.Numpad5;
-			color = Color.Blue;
+			color = Color.Green;
 		} else {
 			playerKeys.right   = KeyCode.E; playerKeys.left       = KeyCode.Q;
 			playerKeys.forward = KeyCode.W; playerKeys.backward = KeyCode.X;
@@ -69,6 +69,20 @@ class SGShip extends SGObject{
 
 	public function GetHP() {
 		return hp;
+	}
+
+	public function GetColor() {
+		return color;
+	}
+
+
+	public function OnHit() {
+		hp--;
+		trace("Atingido!");
+		if (hp <= 0) {
+			hp = 0;
+			active = false;
+		}
 	}
 
 	public override function update() {
@@ -104,15 +118,6 @@ class SGShip extends SGObject{
 			if (bullet.active) {
 				bullet.update();
 			}
-		}
-	}
-
-	public function OnHit() {
-		hp--;
-		trace("Atingido!");
-		if (hp <= 0) {
-			hp = 0;
-			active = false;
 		}
 	}
 
