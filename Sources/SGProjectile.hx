@@ -28,11 +28,13 @@ class SGProjectile extends SGObject {
 	} 
 
 	public override function render(g: Graphics) {
+		if (active) {
 			g.pushTransformation(transform.GetTransformation());
 
 				g.drawRect(size.x * -0.5, -shooter.size.y, size.x, size.y);
 
 			g.popTransformation();
+		}
 	}
 
 	public function CheckCollision()

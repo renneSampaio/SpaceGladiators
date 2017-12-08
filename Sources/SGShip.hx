@@ -1,7 +1,9 @@
 package;
 
+import kha.Assets;
 import kha.graphics2.Graphics;
 using kha.graphics2.GraphicsExtension;
+import kha.Color;
 import kha.System;
 import kha.FastFloat;
 import kha.input.Keyboard;
@@ -16,6 +18,7 @@ class SGShip extends SGObject{
 	var backward: Bool;
 	var left: Bool;
 	var right: Bool;
+	var color: Color;
 
 	private var hp: Int;
 	private var enemy: SGShip;
@@ -36,10 +39,12 @@ class SGShip extends SGObject{
 			playerKeys.right   = KeyCode.Numpad9; playerKeys.left     = KeyCode.Numpad7;
 			playerKeys.forward = KeyCode.Numpad8; playerKeys.backward = KeyCode.Numpad2;
 			playerKeys.fire    = KeyCode.Numpad5;
+			color = Color.Blue;
 		} else {
 			playerKeys.right   = KeyCode.E; playerKeys.left       = KeyCode.Q;
 			playerKeys.forward = KeyCode.W; playerKeys.backward = KeyCode.X;
 			playerKeys.fire    = KeyCode.S;
+			color = Color.Red;
 		}
 
 		SGInputManager.Get().AddUpDownObserver(playerKeys.right   , function () { this.right    = true;}, function () { this.right    = false;});
@@ -54,11 +59,16 @@ class SGShip extends SGObject{
 		if (active) {
 			trace("Atirei!");
 			bullets.push(new SGProjectile(this, enemy, transform.GetRotation().multvec(new FastVector2(0, -speed*50))));
+			vel = vel.add(transform.GetRotation().multvec(new FastVector2(0, speed/4.)));
 		}
 	}
 
 	public function SetEnemy(enemy: SGShip) {
 		this.enemy = enemy;
+	}
+
+	public function GetHP() {
+		return hp;
 	}
 
 	public override function update() {
@@ -100,11 +110,16 @@ class SGShip extends SGObject{
 	public function OnHit() {
 		hp--;
 		trace("Atingido!");
-		if (hp <= 0) active = false;
+		if (hp <= 0) {
+			hp = 0;
+			active = false;
+		}
 	}
 
 	public override function render(g: Graphics) {
 		if (active) {
+			g.color = color;
+
 			g.pushTransformation(transform.GetTransformation());
 				g.drawRect( -size.x/2, -size.y/2, size.x, size.y, 2);
 				g.drawRect( -2.5, -size.y/2, 5, 10, 5);
