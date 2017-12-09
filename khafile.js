@@ -1,4 +1,4 @@
-let project = new Project('New Project');
+let project = new Project('Space Gladiators');
 project.addAssets('Assets/**');
 project.addSources('Sources');
 resolve(project);
